@@ -1,0 +1,4 @@
+gcc -Wall -Wextra -Werror -std=c99 nombrearchivo.c -o nombrejecutable
+./nombrejecutable
+tar -czvf lab04_angeli_mateo.tar.gz lab04
+valgrind --leak-check=full ./nombrejecutable
