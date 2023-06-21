@@ -89,6 +89,8 @@ pqueue pqueue_empty(void)
     q->size=0u;
     q->front=NULL;
 
+    assert(invrep(q) && pqueue_is_empty(q));
+
     return q;
 }
 
@@ -120,7 +122,7 @@ pqueue pqueue_enqueue(pqueue q,
         
     q->size++;    
 
-    assert(invrep(q));
+    assert(invrep(q) && !pqueue_is_empty(q));
 
     return q;
 }
@@ -135,22 +137,44 @@ pqueue_elem pqueue_peek(pqueue q)
 {
     assert(invrep(q) && !pqueue_is_empty(q));
 
-    return q->front->elem;;
+    pqueue_elem e = q->front->elem;
+
+    assert(invrep(q));
+
+    return e;
 }
 
 float pqueue_peek_average_grade(pqueue q)
 {
-    return q->front->average_grade;
+    assert(invrep(q) && !pqueue_is_empty(q));
+
+    float average_grade = q->front->average_grade;
+
+    assert(invrep(q));
+
+    return average_grade;
 }
 
 unsigned int pqueue_peek_approved_courses(pqueue q)
 {
-    return q->front->approved_courses;
+    assert(invrep(q) && !pqueue_is_empty(q));
+
+    float approved_courses = q->front->approved_courses;
+
+    assert(invrep(q));
+
+    return approved_courses;
 }
 
 float pqueue_peek_priority(pqueue q)
 {
-    return q->front->priority;
+    assert(invrep(q) && !pqueue_is_empty(q));
+
+    float priority = q->front->priority;
+
+    assert(invrep(q));
+
+    return priority;
 }
 
 unsigned int pqueue_size(pqueue q)
@@ -182,7 +206,7 @@ pqueue pqueue_copy(pqueue q)
 
 pqueue pqueue_dequeue(pqueue q)
 {
-    assert(invrep(q));
+    assert(invrep(q) && !pqueue_is_empty(q));
 
     struct s_node *killme = q->front;
     
@@ -192,11 +216,15 @@ pqueue pqueue_dequeue(pqueue q)
 
     q->size--;
 
+    assert(invrep(q));
+
     return q;    
 }
 
 pqueue pqueue_destroy(pqueue q)
 {
+    assert(invrep(q));
+
     struct s_node *node = q->front;
     
     while (node != NULL)
@@ -209,5 +237,6 @@ pqueue pqueue_destroy(pqueue q)
     q=NULL; 
 
     assert(q == NULL);
+    
     return q;
 }
